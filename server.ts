@@ -32,7 +32,8 @@ app.get("/list", async (req, res) => {
 });
 
 app.post("/list", async (req, res) => {
-  const { text } = req.body;
+  try {
+    const { text } = req.body;
   if (typeof text === "string") {
     const message =
     "INSERT INTO categories(text) VALUES($1) RETURNING *";
@@ -46,9 +47,12 @@ app.post("/list", async (req, res) => {
   } else {
     res.status(400).json({
       status: "fail",
-    });
-  
+    });}
+  } catch (err) {
+    console.error(err)
+    res.status(500).send(err)
   }
+  
 });
 
 
