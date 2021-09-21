@@ -31,15 +31,13 @@ app.get("/list", async (req, res) => {
   res.json(dbres.rows);
 });
 
-app.post("/list/post", async (req, res) => {
-  const { message } = req.body;
-  if (typeof message === "string") {
-
-    const text =
+app.post("/list", async (req, res) => {
+  const { text } = req.body;
+  if (typeof text === "string") {
+    const message =
     "INSERT INTO categories(text) VALUES($1) RETURNING *";
-    const values = [message];
-
-    const response = await client.query(text, values);
+    const values = [text];
+    const response = await client.query(message, values);
 
     res.status(201).json({
       status: "success",
