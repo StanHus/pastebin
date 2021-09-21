@@ -27,8 +27,15 @@ const client = new Client(dbConfig);
 client.connect();
 
 app.get("/list", async (req, res) => {
-  const dbres = await client.query('select * from categories');
-  res.json(dbres.rows);
+  console.log(dbConfig)
+  try {
+    const dbres = await client.query('select * from categories');
+    res.json(dbres.rows);
+  } catch (err) {
+    console.error(err)
+    res.status(500).send(err)
+  }
+
 });
 
 app.post("/list", async (req, res) => {
