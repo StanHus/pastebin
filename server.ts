@@ -26,18 +26,18 @@ app.use(cors()) //add CORS support to each following route handler
 const client = new Client(dbConfig);
 client.connect();
 
-app.get("/", async (req, res) => {
+app.get("/list", async (req, res) => {
   const dbres = await client.query('select * from categories');
   res.json(dbres.rows);
 });
 
-app.post("/post", async (req, res) => {
-  const { title, message } = req.body;
+app.post("/list/post", async (req, res) => {
+  const { message } = req.body;
   if (typeof message === "string") {
 
     const text =
     "INSERT INTO categories(text) VALUES($1) RETURNING *";
-    const values = ["anything"];
+    const values = [message];
 
     const response = await client.query(text, values);
 
